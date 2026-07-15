@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Analysis Portal</title>
+    
+    <style>
+        /* Global Brand System Variables */
+        :root {
+            --primary-blue: #3B82F6;
+            --primary-hover: #2563EB;
+            --text-dark: #0F172A;
+            --text-muted: #64748B;
+            --bg-light: #F8FAFC;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+            background-color: #FFFFFF;
+            color: var(--text-dark);
+        }
+
+        /* 🧩 Fixed Top Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 75px;
+            background: #FFFFFF;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8%;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #64748B;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-blue);
+        }
+
+        .btn-get-started {
+            background-color: var(--primary-blue);
+            color: #FFFFFF !important;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600 !important;
+            transition: background-color 0.2s;
+        }
+
+        .btn-get-started:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* 📦 Global Section Frame Structures */
+        .section {
+            padding: 120px 8% 80px 8%;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 10px 0;
+        }
+
+        .section-header p {
+            font-size: 16px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* 🏠 Section 1: Hero Section Canvas */
+        #home {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-text h1 {
+            font-size: 52px;
+            color: var(--text-dark);
+            margin: 0 0 20px 0;
+            line-height: 1.2;
+            font-weight: 800;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            color: #64748B;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+
+        /* 📑 Section 2: Strategic About Layout */
+        #about {
+            background-color: var(--bg-light);
+        }
+
+        .about-intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+            align-items: center;
+        }
+
+        .about-main-text h3 {
+            font-size: 24px;
+            color: var(--text-dark);
+            margin: 0 0 15px 0;
+        }
+
+        .about-main-text p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+
+        /* Deep Custom Scenarios Styling Expansion */
+        .persona-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .persona-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .persona-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-blue);
+        }
+
+        .persona-icon {
+            font-size: 32px;
+            color: var(--primary-blue);
+            margin-bottom: 16px;
+        }
+
+        .persona-card h4 {
+            margin: 0 0 4px 0;
+            font-size: 20px;
+            color: var(--text-dark);
+        }
+
+        .persona-role {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: 0.05em;
+        }
+
+        .persona-card p {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.6;
+            margin: 0 0 20px 0;
+        }
+
+        .persona-details {
+            margin-top: auto;
+            background-color: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #F1F5F9;
+        }
+
+        .persona-details ul {
+            margin: 0;
+            padding: 0 0 0 18px;
+            font-size: 13px;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .persona-details ul li {
+            margin-bottom: 6px;
+        }
+
+        .persona-details ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 📊 Section 3 & 4: Tableau Viewports */
+        .viz-section {
+            background-color: #FFFFFF;
+        }
+
+        .viz-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: #FFFFFF;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            box-shadow: var(--card-shadow);
+        }
+
+        .tableau-wrapper {
+            width: 100%;
+            max-width: 1016px;
+            margin: 0 auto;
+        }
+
+        /* ✉️ Section 5: Contact Section */
+        #contact {
+            background-color: var(--bg-light);
+            min-height: auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .info-item {
+            background-color: #FFFFFF;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .info-item i {
+            font-size: 24px;
+            color: var(--primary-blue);
+        }
+
+        .info-text h5 {
+            margin: 0 0 4px 0;
+            font-size: 16px;
+            color: var(--text-dark);
+        }
+
+        .info-text p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .contact-form {
+            background-color: #FFFFFF;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            box-shadow: var(--card-shadow);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group input, .form-group textarea {
+            border: 1px solid #CBD5E1;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 14px;
+            color: var(--text-dark);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary-blue);
+        }
+
+        .btn-submit {
+            background-color: var(--primary-blue);
+            color: #FFFFFF;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* 📋 Section 6: Corporate Footer */
+        .main-footer {
+            background-color: #0F172A;
+            color: #94A3B8;
+            padding: 40px 8% 20px 8%;
+            border-top: 1px solid #1E293B;
+            font-size: 14px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1E293B;
+            padding-bottom: 25px;
+            margin-bottom: 20px;
+        }
+
+        .footer-brand {
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: #94A3B8;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #FFFFFF;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #64748B;
+            font-size: 13px;
+        }
+
+        .team-attribution span {
+            margin-left: 12px;
+            color: #94A3B8;
+        }
+
+        .viz-container iframe, 
+        .viz-container object {
+            border: none !important;
+            border-radius: 8px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- 🧭 Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-logo"><i class="fa-solid fa-bars-staggered"></i> Welcome</div>
+        <div class="nav-links">
+            <a href="#home" class="active">Home</a>
+            <a href="#about">About</a>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#story">Story</a>
+            <a href="#contact">Contact</a>
+            <a href="#dashboard" class="btn-get-started">Explore App</a>
+        </div>
+    </nav>
+
+    <!-- 🏠 Section 1: Hero Landing Area -->
+    <section class="section" id="home">
+        <div class="hero-grid">
+            <div class="hero-text">
+                <h1>Heart Disease Analysis</h1>
+                <p>Unlock critical baseline population health matrices and explore chronic patient lifestyle trends across our interactive visual analytics platform.</p>
+                <a href="#dashboard" class="btn-get-started" style="text-decoration: none; display: inline-block;">Get Started &rarr;</a>
+            </div>
+            <div class="hero-image">
+                <img src="Ischemic-Heart-Disease-768x432-1.jpg" alt="Data Engine Analytics">
+            </div>
+        </div>
+    </section>
+
+    <!-- 📑 Section 2: Updated Strategic About Layout -->
+    <section class="section" id="about">
+        <div class="section-header">
+            <h2>About the Project</h2>
+            <p>Transforming complex clinical metrics into strategic health solutions</p>
+        </div>
+
+        <div class="about-intro-grid">
+            <div class="about-main-text">
+                <h3>Problem Statement & Objectives</h3>
+                <p>Analyzing large-scale health metadata related to heart disease—such as patient demographics, medical histories, lifestyle choices, and clinical metrics—requires advanced diagnostic infrastructure. Our project uses Business Intelligence pipelines to transform raw data points into interactive clinical models, highlighting core risk factors to support decision-making for medical systems, policymakers, and individuals alike.</p>
+            </div>
+            <div class="about-image">
+                <img src="https://img.freepik.com/free-photo/doctor-holding-digital-tablet-with-cardiogram_53876-139785.jpg" alt="Clinical Interface Analysis">
+            </div>
+        </div>
+
+        <div style="text-align: center; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 30px;">Target Operational Scenarios</div>
+        
+      <!-- 👥 Fully Adjusted User Scenarios Grid -->
+        <div class="persona-grid">
+            <!-- Scenario 1: Dr. Sharma -->
+            <div class="persona-card">
+                <div class="persona-icon"><i class="fa-solid fa-user-doctor"></i></div>
+                <h4>Dr. Sharma</h4>
+                <div class="persona-role">Senior Cardiologist</div>
+                <p>Diagnoses chronic physiological thresholds and intercepts compounding clinical conditions within vulnerable age cohorts.</p>
+                <div class="persona-details">
+                    <h5 style="margin: 0 0 8px 0; font-size: 13px; color: var(--primary-blue);">📊 Active Dashboards:</h5>
+                    <ul>
+                        <li><strong>Diabetic vs. Stroke Matrix</strong> (Chronic Comorbidities)</li>
+                        <li><strong>Diabetes & Avg Age Tracking</strong> (Age Vulnerabilities)</li>
+                        <li><strong>Clinical Age Trend Lines</strong> (Risk Thresholds)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Scenario 2: Ramesh -->
+            <div class="persona-card">
+                <div class="persona-icon"><i class="fa-solid fa-building-shield"></i></div>
+                <h4>Ramesh</h4>
+                <div class="persona-role">Public Health Policy Maker</div>
+                <p>Maps macro socio-demographics and regional baseline variations to build funded community intervention policies.</p>
+                <div class="persona-details">
+                    <h5 style="margin: 0 0 8px 0; font-size: 13px; color: var(--primary-blue);">📊 Active Dashboards:</h5>
+                    <ul>
+                        <li><strong>Race-Wise Caseload Distribution</strong> (Demographics Profile)</li>
+                        <li><strong>Gender suffering from Heart Disease</strong> (Regional Baselines)</li>
+                        <li><strong>Effect of Physical Activity</strong> (Sedentary Indicators)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Scenario 3: Anita -->
+            <div class="persona-card">
+                <div class="persona-icon"><i class="fa-solid fa-heart-circle-check"></i></div>
+                <h4>Anita</h4>
+                <div class="persona-role">Preventive Care Consumer</div>
+                <p>Evaluates individual behavioral risks and checks daily health metrics directly against stable healthy benchmarks.</p>
+                <div class="persona-details">
+                    <h5 style="margin: 0 0 8px 0; font-size: 13px; color: var(--primary-blue);">📊 Active Dashboards:</h5>
+                    <ul>
+                        <li><strong>Smoking & Alcohol Impact</strong> (Behavioral Risk Scaling)</li>
+                        <li><strong>Personal Health Benchmarks</strong> (Self-Monitoring Gauge)</li>
+                        <li><strong>Lifestyle Adaptation Index</strong> (Actionable Target Paths)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 📊 Section 3: Tableau Dashboard Container (LIVE EMBED ACTIVE) -->
+    <section class="section viz-section" id="dashboard">
+        <div class="section-header">
+            <h2>Dashboard Viewport</h2>
+            <p>Interactive analytics grid for cross-filtering population health parameters</p>
+        </div>
+        <div class="viz-container">
+            <div class="tableau-wrapper">
+                
+                <!-- 🚀 LIVE TABLEAU DASHBOARD3 EMBED ACTIVE -->
+                <div class='tableauPlaceholder' id='viz1783849914354' style='position: relative'>
+                    <noscript>
+                        <a href='#'>
+                            <img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sa&#47;Satya_17837712038740&#47;Dashboard3&#47;1_rss.png' style='border: none' />
+                        </a>
+                    </noscript>
+                    <object class='tableauViz' style='display:none;'>
+                        <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+                        <param name='embed_code_version' value='3' /> 
+                        <param name='path' value='views&#47;Satya_17837712038740&#47;Dashboard3?:language=en-US&amp;:embed=true&amp;:sid=&amp;:redirect=auth' /> 
+                        <param name='toolbar' value='yes' />
+                        <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sa&#47;Satya_17837712038740&#47;Dashboard3&#47;1.png' /> 
+                        <param name='animate_transition' value='yes' />
+                        <param name='display_static_image' value='yes' />
+                        <param name='display_spinner' value='yes' />
+                        <param name='display_overlay' value='yes' />
+                        <param name='display_count' value='yes' />
+                        <param name='language' value='en-US' />
+                    </object>
+                </div>                
+                <script type='text/javascript'>                    
+                    var divElement = document.getElementById('viz1783849914354');                    
+                    var vizElement = divElement.getElementsByTagName('object')[0];                    
+                    if ( divElement.offsetWidth > 800 ) { vizElement.style.minWidth='1016px';vizElement.style.maxWidth='100%';vizElement.style.minHeight='1014px';vizElement.style.maxHeight=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.minWidth='1016px';vizElement.style.maxWidth='100%';vizElement.style.minHeight='1014px';vizElement.style.maxHeight=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.minWidth='1016px';vizElement.style.maxWidth='100%';vizElement.style.minHeight='1900px';vizElement.style.maxHeight=(divElement.offsetWidth*1.77)+'px';}                     
+                    var scriptElement = document.createElement('script');                    
+                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    
+                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+                </script>
+                <!-- 🚀 LIVE TABLEAU DASHBOARD3 END -->
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 📖 Section 4: Tableau Story Narrative Container (LIVE EMBED ACTIVE) -->
+    <section class="section viz-section" id="story" style="background-color: var(--bg-light);">
+        <div class="section-header">
+            <h2>Story Narration Viewport</h2>
+            <p>Sequential data storytelling through medical diagnostic metrics</p>
+        </div>
+        <div class="viz-container">
+            <div class="tableau-wrapper">
+                
+                <!-- 🚀 LIVE TABLEAU STORY1 EMBED ACTIVE -->
+                <div class='tableauPlaceholder' id='viz1783849852253' style='position: relative'>
+                    <noscript>
+                        <a href='#'>
+                            <img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sa&#47;Satya_17837712038740&#47;Story1&#47;1_rss.png' style='border: none' />
+                        </a>
+                    </noscript>
+                    <object class='tableauViz' style='display:none;'>
+                        <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+                        <param name='embed_code_version' value='3' /> 
+                        <param name='path' value='views&#47;Satya_17837712038740&#47;Story1?:language=en-US&amp;:embed=true&amp;:sid=&amp;:redirect=auth' /> 
+                        <param name='toolbar' value='yes' />
+                        <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sa&#47;Satya_17837712038740&#47;Story1&#47;1.png' /> 
+                        <param name='animate_transition' value='yes' />
+                        <param name='display_static_image' value='yes' />
+                        <param name='display_spinner' value='yes' />
+                        <param name='display_overlay' value='yes' />
+                        <param name='display_count' value='yes' />
+                        <param name='language' value='en-US' />
+                    </object>
+                </div>                
+                <script type='text/javascript'>                    
+                    var divElement = document.getElementById('viz1783849852253');                    
+                    var vizElement = divElement.getElementsByTagName('object')[0];                    
+                    vizElement.style.width='100%';
+                    vizElement.style.height='1014px';
+                    var scriptElement = document.createElement('script');                    
+                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    
+                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+                </script>
+                <!-- 🚀 LIVE TABLEAU STORY1 END -->
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ✉️ Section 5: Contact Section -->
+    <section class="section" id="contact">
+        <div class="section-header">
+            <h2>Contact Our Team</h2>
+            <p>Get in touch with the Healthcaregroup development team</p>
+        </div>
+        
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="info-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <div class="info-text">
+                        <h5>Email Support</h5>
+                        <p>support@healthcaregroup.org</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div class="info-text">
+                        <h5>Operations Center</h5>
+                        <p>Bhimavaram, Andhra Pradesh, India</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Message processed successfully!');">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" placeholder="Satya Ganesh" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" placeholder="satya@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" placeholder="Project Inquiry" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" rows="5" placeholder="Write your message details here..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 📋 Section 6: Corporate Footer -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i class="fa-solid fa-bars-staggered" style="color: var(--primary-blue);"></i> Healthcaregroup
+            </div>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#dashboard">Dashboard</a>
+                <a href="#story">Story</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>&copy; 2026 Healthcaregroup. All rights reserved.</div>
+            <div class="team-attribution">
+                <strong>Project Team:</strong> 
+                <span>Likhitha (Lead)</span>
+                <span>Kalyani</span>
+                <span>Ganesh</span>
+                <span>Harini</span>
+                <span>Ramana</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ⚡ JavaScript Scroll Navigation Tracking Engine -->
+    <script>
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-links a:not(.btn-get-started)');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href').slice(1) === current) {
+                    a.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
